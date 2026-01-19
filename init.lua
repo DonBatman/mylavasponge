@@ -40,7 +40,7 @@ local function absorb_lava(pos)
         return false
     end
 
-    local radius = 3
+    local radius = 1
     local nodes = core.find_nodes_in_area(
         {x = pos.x - radius, y = pos.y - radius, z = pos.z - radius},
         {x = pos.x + radius, y = pos.y + radius, z = pos.z + radius},
@@ -114,11 +114,11 @@ for _, state in ipairs(states) do
         end,
 
         on_timer = function(pos, elapsed)
-            local surrounding = core.find_nodes_in_area(vector.subtract(pos, 1), vector.add(pos, 1), {"group:lava"})
-            if #surrounding > 0 then
-                core.set_node(pos, {name = "mylavasponge:dried_leaves"})
-                return false
-            end
+            --local surrounding = core.find_nodes_in_area(vector.subtract(pos, 1), vector.add(pos, 1), {"group:lava"})
+            --if #surrounding > 0 then
+            --    core.set_node(pos, {name = "mylavasponge:dried_leaves"})
+            --    return false
+            --end
 
             if not state.next_state then return false end
 
@@ -141,7 +141,7 @@ for _, state in ipairs(states) do
 
         on_blast = function(pos, intensity)
             core.remove_node(pos)
-            return {"mylavaspongesponge_" .. state.id}
+            return {"mylavasponge:sponge_" .. state.id}
         end,
     })
 
@@ -212,4 +212,8 @@ core.register_abm({
         end
     end,
 })
-
+if core.get_modpath("lucky_block") then
+	lucky_block:add_blocks({
+		{"dro", {"mylavasponge:sponge_dry"}, 4},
+	})
+end
