@@ -114,11 +114,11 @@ for _, state in ipairs(states) do
         end,
 
         on_timer = function(pos, elapsed)
-            --local surrounding = core.find_nodes_in_area(vector.subtract(pos, 1), vector.add(pos, 1), {"group:lava"})
-            --if #surrounding > 0 then
-            --    core.set_node(pos, {name = "mylavasponge:dried_leaves"})
-            --    return false
-            --end
+            local surrounding = core.find_nodes_in_area(vector.subtract(pos, 1), vector.add(pos, 1), {"group:lava"})
+            if #surrounding > 0 then
+                core.set_node(pos, {name = "mylavasponge:dried_leaves"})
+                return false
+            end
 
             if not state.next_state then return false end
 
@@ -217,3 +217,12 @@ if core.get_modpath("lucky_block") then
 		{"dro", {"mylavasponge:sponge_dry"}, 4},
 	})
 end
+
+core.register_craft({
+	output = "mylavasponge:sponge_dry 1",
+	recipe = {
+		{"flowers:mushroom_brown", "flowers:mushroom_brown", ""},
+		{"flowers:mushroom_brown", "flowers:mushroom_brown", ""},
+		{"", "", ""},
+	}
+})
